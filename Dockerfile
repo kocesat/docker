@@ -3,10 +3,13 @@ FROM node:14.16.0-alpine3.13
 RUN addgroup app && adduser -S -G app app
 USER app
 # creating a working directory in the home directory of app user
-WORKDIR /app/ 
-# copy everything of the project root (where Dockerfile is) to the working dir
+WORKDIR /app/
+# create a new directory with the user app to persist to a volume later
+RUN mkdir data
+# copy specific file (not often changed) to the working directory
 COPY package*.json .
 RUN npm install
+# copy everything of the project root (where Dockerfile is) to the working dir
 COPY . .
 # If you use ADD command zippedFile is decompressed at the time of building image 
 # ADD zippedFile.zip 
